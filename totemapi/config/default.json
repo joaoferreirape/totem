@@ -1,0 +1,10 @@
+{
+    "MySQL": {
+        "database": "totemdb",
+        "host": "localhost",
+        "password": "pwd_totem",
+        "port": "3307",
+        "timezone": "America/Recife",
+        "user": "usr_totem"
+    }
+}

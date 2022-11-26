@@ -14,12 +14,13 @@ VIEW `vw_ultima_senha_geral` AS
         totemdb.senha sen
             INNER JOIN
         totemdb.prioridade pri ON pri.idprioridade = sen.idprioridade
-            AND pri.idprioridade = 2
+            AND pri.idprioridade = 3
     WHERE
-        sen.idsenha NOT IN (SELECT 
-                ate.idsenha
+        sen.idsenha = (SELECT 
+                MAX(sen.idsenha)
             FROM
-                totemdb.atendimento ate)
-    GROUP BY sen.idsenha , sen.senha_numeracao , sen.senha_emissao , pri.idprioridade , pri.prioridade_ordem , pri.prioridade_descricao
-    HAVING MAX(sen.senha_numeracao)
+                totemdb.senha sen
+            WHERE
+                sen.idprioridade = pri.idprioridade
+                    AND DATE_FORMAT(sen.senha_emissao, '%Y-%m-%d') = DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y-%m-%d'))
     ORDER BY pri.prioridade_ordem ASC , sen.idsenha DESC

@@ -12,10 +12,12 @@ VIEW `vw_detalhamento_senhas` AS
         gui.guiche_descricao
     FROM
         totemdb.senha sen
-            INNER JOIN
+            LEFT JOIN
         totemdb.prioridade pri ON pri.idprioridade = sen.idprioridade
             LEFT JOIN
         totemdb.atendimento ate ON ate.idsenha = sen.idsenha
-            INNER JOIN
+            LEFT JOIN
         totemdb.guiche gui ON gui.idguiche = ate.idguiche
-    ORDER BY DATE_FORMAT(ate.atendimento_final, '%Y-%m-%d') DESC , pri.prioridade_descricao ASC
+    WHERE
+        pri.idprioridade IS NOT NULL
+    ORDER BY DATE_FORMAT(ate.atendimento_final, '%Y-%m-%d') DESC , pri.prioridade_descricao ASC , sen.senha_numeracao DESC
